@@ -141,7 +141,7 @@ class _DeckButtonState extends State<DeckButton> {
                       },
                     ),
                     actions: [
-                      FlatButton(
+                      TextButton(
                         onPressed: () {
                           if (tempData != null) {
                             setState(() {
@@ -164,7 +164,7 @@ class _DeckButtonState extends State<DeckButton> {
                         },
                         child: Text("OK"),
                       ),
-                      FlatButton(
+                      TextButton(
                         onPressed: () {
                           tempData = null;
                           Navigator.pop(context);
@@ -217,7 +217,7 @@ class _DeckButtonState extends State<DeckButton> {
                       },
                     ),
                     actions: [
-                      FlatButton(
+                      TextButton(
                         onPressed: () {
                           setState(() {
                             currentFunction = Functionality.switchScene;
@@ -239,7 +239,7 @@ class _DeckButtonState extends State<DeckButton> {
                         },
                         child: Text("OK"),
                       ),
-                      FlatButton(
+                      TextButton(
                         onPressed: () {
                           tempData = null;
                           Navigator.pop(context);
@@ -278,7 +278,7 @@ class _DeckButtonState extends State<DeckButton> {
                       },
                     ),
                     actions: [
-                      FlatButton(
+                      TextButton(
                         onPressed: () async {
                           if (tempData != null) {
                             setState(() {
@@ -301,7 +301,7 @@ class _DeckButtonState extends State<DeckButton> {
                         },
                         child: Text("OK"),
                       ),
-                      FlatButton(
+                      TextButton(
                         onPressed: () {
                           tempData = null;
                           Navigator.pop(context);

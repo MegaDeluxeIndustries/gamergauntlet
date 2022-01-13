@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:Streamdeck/screens/connect_screen.dart';
 
@@ -17,7 +16,6 @@ class MyApp extends StatelessWidget {
       title: 'Stream Deck',
       theme: ThemeData(
         brightness: Brightness.light,
-        accentColor: Color(0xFF5E5CE6),
       ),
       home: ConnectScreen(),
     );

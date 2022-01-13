@@ -179,9 +179,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 ButtonTheme(
                   minWidth: MediaQuery.of(context).size.width,
                   height: 50,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7)),
+                  child: ElevatedButton(
+                    //shape: RoundedRectangleBorder(
+                    //borderRadius: BorderRadius.circular(7)),
                     child: Text(
                       "Connect",
                       style: TextStyle(
@@ -189,7 +189,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                         fontSize: 18,
                       ),
                     ),
-                    color: Color(0xFF5E5CE6),
+                    //color: Color(0xFF5E5CE6),
                     onPressed: () async {
                       if (ip != null && port != null) {
                         FocusScope.of(context).unfocus();
