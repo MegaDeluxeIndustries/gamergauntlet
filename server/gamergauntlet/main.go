@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/go-ps"
@@ -10,18 +11,18 @@ import (
 
 // Gamer Gaunlet Site information
 type site struct {
-	ID    string `json:"id"`
+	ID    int    `json:"id"`
 	Title string `json:"title"`
 	IP    string `json:"ip"`
-	Port  string `json:"port"`
+	Port  int    `json:"port"`
 	Theme string `json:"theme"`
 }
 
 // Gamer Gauntlet server page data
 type page struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Title    string `json:"title"`
-	Site     string `json:"site"`
+	Site     int    `json:"site"`
 	Method   string `json:"method"`
 	Path     string `json:"path"`
 	Handler  string `json:"handler"`
@@ -30,7 +31,7 @@ type page struct {
 
 //Gamer Gauntlet user data
 type user struct {
-	ID        string `json:"id"`
+	ID        int    `json:"id"`
 	Username  string `json:"username"`
 	Email     string `json:"email"`
 	FirstName string `json:"firstname"`
@@ -41,42 +42,42 @@ type user struct {
 
 //Gamer Gauntlet server data
 type gamergauntlet struct {
-	ID   string `json:"id"`
+	ID   int    `json:"id"`
 	IP   string `json:"ip"`
 	MAC  string `json:"mac"`
 	Key  string `json:"key"`
-	User string `json:"user"`
+	User int    `json:"user"`
 }
 
-// User profile data
+// User app profile data
 type profile struct {
-	ID    string `json:"id"`
+	ID    int    `json:"id"`
 	Name  string `json:"name"`
 	Image string `json:"image"`
-	User  string `json:"user"`
+	User  int    `json:"user"`
 }
 
-// Profile screen layout data
+// App profile screen layout data
 type screen struct {
-	ID      string `json:"id"`
+	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Profile string `json:"profile"`
 }
 
-// Screen button data
+// App screen button data
 type button struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Image    string `json:"image"`
 	Type     string `json:"type"`
-	Screen   string `json:"screen"`
+	Screen   int    `json:"screen"`
 	Size     int    `json:"size"`
-	Position string `json:"position"`
+	Position int    `json:"position"`
 }
 
-// Screen widget data
+// App screen widget data
 type widget struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Image    string `json:"image"`
 	Type     string `json:"type"`
@@ -89,115 +90,95 @@ type widget struct {
 
 // Default site
 var sites = []site{
-	{ID: "0", Title: "Gamer Gauntlet", IP: "192.168.1.70", Port: "80", Theme: "Default"},
+	{ID: 0, Title: "Gamer Gauntlet", IP: "127.0.0.1", Port: 8080, Theme: "Default"},
 }
 
 // Default Pages
 var pages = []page{
-	{Title: sites[0].Title + " - Home", Site: sites[0].ID, Method: "GET", Path: "/", Template: "index.tmpl"},
-	{Title: sites[0].Title + " - Users", Method: "GET", Path: "/users", Template: "users.tmpl"},
-	{Title: sites[0].Title + " - Settings", Path: "/settings", Template: "settings.tmpl"},
+	{Title: sites[0].Title + " - Home", Site: sites[0].ID, Method: "GET", Path: "/", Handler: "getHome", Template: "index.tmpl"},
+	{Title: sites[0].Title + " - Users", Site: sites[0].ID, Method: "GET", Path: "/users", Handler: "getUsers", Template: "users.tmpl"},
+	{Title: sites[0].Title + " - Settings", Site: sites[0].ID, Method: "GET", Path: "/settings", Handler: "getSettings", Template: "settings.tmpl"},
 }
 
 // Test users
 var users = []user{
-	{ID: "1", Username: "Demo", Email: "demo@gmail.com", FirstName: "Demo", LastName: "Demo", Image: "Default", Key: "GamerGauntletDemo"},
-	{ID: "2", Username: "Nicki", Email: "nickitaylor@gmail.com", FirstName: "Nicki", LastName: "Taylor", Image: "Default", Key: "GamerGauntletNickiTaylor"},
+	{ID: 0, Username: "Demo", Email: "demo@gmail.com", FirstName: "Demo", LastName: "Demo", Image: "Default", Key: "GamerGauntletDemo"},
 }
 
 var gamergauntlets = []gamergauntlet{
-	{ID: "1", IP: "IP", MAC: "MAC", Key: "GamerGauntlet", User: "1"},
+	{ID: 0, IP: "IP", MAC: "MAC", Key: "GamerGauntlet", User: 0},
 }
 
 var profiles = []profile{
-	{ID: "1", Name: "Streaming", Image: "Default", User: "1"},
-	{ID: "2", Name: "Recording", Image: "Default", User: "1"},
+	{ID: 0, Name: "Streaming", Image: "Default", User: 0},
+	{ID: 1, Name: "Recording", Image: "Default", User: 0},
 }
 
 var screens = []screen{
-	{ID: "1", Name: "Primary", Profile: "1"},
-	{ID: "2", Name: "Secondary", Profile: "1"},
+	{ID: 0, Name: "Primary", Profile: "1"},
+	{ID: 1, Name: "Secondary", Profile: "1"},
 }
 
 var buttons = []button{
-	{ID: "1", Name: "mic1", Image: "Default", Type: "MuteAudio"},
-	{ID: "2", Name: "1", Image: "Default", Type: "SwitchScene"},
-	{ID: "3", Name: "2", Image: "Default", Type: "SwitchScene"},
-	{ID: "4", Name: "3", Image: "Default", Type: "SwitchScene"},
-	{ID: "3", Name: "cam1", Image: "Default", Type: "HideSource"},
-	{ID: "4", Name: "", Image: "Default", Type: "ToggleStream"},
-	{ID: "5", Name: "", Image: "Default", Type: "ToggleRecording"},
-	{ID: "6", Name: "", Image: "Default", Type: "PauseRecording"},
-	{ID: "7", Name: "", Image: "Default", Type: "Disconnect"},
-	{ID: "7", Name: "", Image: "Default", Type: "Disconnect"},
+	{ID: 0, Name: "mic1", Image: "Default", Type: "MuteAudio", Screen: 0, Size: 1, Position: 0},
+	{ID: 1, Name: "1", Image: "Default", Type: "SwitchScene", Screen: 0, Size: 1, Position: 1},
+	{ID: 2, Name: "2", Image: "Default", Type: "SwitchScene", Screen: 0, Size: 1, Position: 2},
+	{ID: 3, Name: "3", Image: "Default", Type: "SwitchScene", Screen: 0, Size: 1, Position: 3},
+	{ID: 4, Name: "cam1", Image: "Default", Type: "HideSource", Screen: 0, Size: 1, Position: 4},
+	{ID: 5, Name: "", Image: "Default", Type: "ToggleStream", Screen: 0, Size: 1, Position: 5},
+	{ID: 6, Name: "", Image: "Default", Type: "ToggleRecording", Screen: 0, Size: 1, Position: 6},
+	{ID: 7, Name: "", Image: "Default", Type: "PauseRecording", Screen: 0, Size: 1, Position: 7},
+	{ID: 8, Name: "", Image: "Default", Type: "Disconnect", Screen: 0, Size: 1, Position: 8},
+	{ID: 9, Name: "", Image: "Default", Type: "Disconnect", Screen: 0, Size: 1, Position: 9},
 }
 
 var widgets = []widget{
-	{ID: "1", Name: "Twitch", Image: "Default", Type: "Stream"},
-	{ID: "2", Name: "Twitch", Image: "Default", Type: "Stream"},
-	{ID: "3", Name: "Youtube", Image: "Default", Type: "Chat"},
-	{ID: "4", Name: "Youtube", Image: "Default", Type: "Chat"},
+	{ID: 0, Name: "Twitch", Image: "Default", Type: "Stream"},
+	{ID: 1, Name: "Twitch", Image: "Default", Type: "Stream"},
+	{ID: 2, Name: "Youtube", Image: "Default", Type: "Chat"},
+	{ID: 3, Name: "Youtube", Image: "Default", Type: "Chat"},
 }
 
 func main() {
 
-	server("gg", "start")
-	server("obs", "status")
+	manageserver("gg", "start")
+	manageserver("obs", "status")
 
 }
 
-func server(name string, option string) {
+// Manage Gamer Gauntlet Server.
+func manageserver(server string, option string) int {
 
-	if name == "gg" {
-		gg("start")
-	}
+	// Check if Gamer Gauntlet server is running.
+	if server == "gg" && option == "status" {
 
-	if name == "obs" {
-		obs("status")
-	}
-}
-
-// Manage Gamer Gauntlet Server
-func gg(option string) int {
-
-	//Check if Gamer Gauntlet server is running
-	if option == "status" {
 		status := getProcess("go.exe")
+
 		return status
 	}
 
-	if option == "start" {
-		buildsite()
+	// Start Gamer Gauntlet server.
+	if server == "gg" && option == "start" {
 
-		return 1
+		status := buildsite()
+
+		return status
 	}
 
-	return 0
-}
-
-// Manage OBS server
-func obs(option string) int {
-	//Check if OBS is running
-	if option == "Status" {
+	//Check if OBS is running.
+	if server == "obs" && option == "Status" {
 		status := getProcess("obs64.exe")
+
 		return status
 	}
+
 	return 0
 }
 
-func buildsite() {
-	getPages(pages)
+func buildsite() int {
 
-}
+	getmenu(pages)
 
-func getPages(pages []page) {
-	for _, page := range pages {
-		getRoutes(page.Method, page.Path, page.Handler)
-	}
-
-}
-
-func getRoutes(method string, path string, handler string) {
 	router := gin.Default()
 
 	// Load page templates
@@ -205,30 +186,62 @@ func getRoutes(method string, path string, handler string) {
 
 	router.Static("/assets", "./assets")
 
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, pages[0].Template, gin.H{
-			"title": pages[0].Title,
-			"Items": []string{"Home", "Users"},
-		})
-	})
-	router.GET("/users", func(c *gin.Context) {
-		c.HTML(http.StatusOK, pages[1].Template, gin.H{
-			"title": pages[1].Title,
-			"Items": []string{"Home", "Users"},
-		})
-	})
+	router.GET("/", getHome)
+	router.GET("/users", getUsers)
 	router.GET("/settings", getSettings)
 	router.GET("/settings/:id", getSettingID)
 	router.POST("/settings", postSettings)
-	router.Run(sites[0].IP + ":" + sites[0].Port)
+
+	port := strconv.Itoa(sites[0].Port)
+	router.Run(sites[0].IP + ":" + port)
+
+	return 1
 }
 
-// getSettings.
+func getmenu(pages []page) []struct{} {
+
+	type item struct {
+		ID     int
+		Name   string
+		Path   string
+		Active int
+		Order  int
+	}
+	var items []struct{}
+
+	for _, page := range pages {
+		id := 0
+		items[id] = []item{{ID: id, Name: page.Title}}
+		id++
+	}
+
+	return items
+
+}
+
+func getHome(c *gin.Context) {
+
+	c.HTML(http.StatusOK, pages[0].Template, gin.H{
+
+		"title": pages[0].Title,
+	})
+
+}
+
+func getUsers(c *gin.Context) {
+
+	c.HTML(http.StatusOK, pages[1].Template, gin.H{
+		"title": pages[1].Title,
+	})
+
+}
+
+// getSettings
 func getSettings(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, widgets)
-	c.IndentedJSON(http.StatusOK, widgets)
-	c.IndentedJSON(http.StatusOK, widgets)
-	c.IndentedJSON(http.StatusOK, widgets)
+	c.IndentedJSON(http.StatusOK, users)
+	c.IndentedJSON(http.StatusOK, gamergauntlets)
+	c.IndentedJSON(http.StatusOK, profiles)
+	c.IndentedJSON(http.StatusOK, screens)
 	c.IndentedJSON(http.StatusOK, buttons)
 	c.IndentedJSON(http.StatusOK, widgets)
 }
@@ -251,7 +264,7 @@ func getSettingID(c *gin.Context) {
 	id := c.Param("id")
 
 	for _, a := range buttons {
-		if a.ID == id {
+		if strconv.Itoa(a.ID) == id {
 			c.IndentedJSON(http.StatusOK, a)
 			return
 		}
