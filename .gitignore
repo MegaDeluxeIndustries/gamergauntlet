@@ -46,3 +46,5 @@ android/app/build.gradle
 
 # Ignore Gradle build output directory
 build
+server/gamergauntlet/vscode
+*.hprof
