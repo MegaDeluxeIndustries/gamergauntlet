@@ -1,0 +1,20 @@
+{{ define "globals/header.tmpl" }}
+<head>
+<meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script async src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<header>
+    <h1>{{ .title }}</h1>
+    <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+                {{range .Items}}<a class="navbar-brand" href="">{{ . }}</a>{{else}}<div><strong>Data Missing</strong></div>{{end}}
+          </div>
+        </div>
+      </nav>
+	<a href="/">Home</a>
+	<a href="/users/">User</a>
+</header>
+{{ end }}
