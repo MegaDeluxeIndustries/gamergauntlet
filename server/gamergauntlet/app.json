@@ -1,0 +1,57 @@
+{
+"gamergauntlets": [
+	{
+        "ID": 0,
+        "IP": "IP",
+        "MAC": "MAC",
+        "Key": "GamerGauntlet",
+        "User": 0
+    }
+],
+"profiles": [
+	{
+        "ID": 0,
+        "Name": "Streaming",
+        "Image": "Default",
+        "User": 0
+    },
+	{
+        "ID": 1,
+        "Name": "Recording",
+        "Image": "Default",
+        "User": 0
+    }
+],
+"screens": [
+	{
+        "ID": 0,
+        "Name": "Primary",
+        "Profile": "1"
+    },
+	{
+        "ID": 1,
+        "Name": "Secondary",
+        "Profile": "1"
+    }
+],
+"buttons": [
+	{
+        "ID": 0,
+        "Name": "mic1",
+        "Image": "Default",
+        "Type": "MuteAudio",
+        "Screen": 0,
+        "Size": 1,
+        "Position": 0
+    }
+
+],
+"widgets": [
+	{
+        "ID": 0,
+        "Name": "Twitch",
+        "Image": "Default",
+        "Type": "Stream"
+    }
+]
+}

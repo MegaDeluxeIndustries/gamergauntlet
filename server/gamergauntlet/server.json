@@ -1,0 +1,48 @@
+{
+    "sites":    [
+        {
+            "id": 0,
+            "title": "Gamer Gauntlet",
+            "ip": "127.0.0.1",
+            "port": 8080,
+            "theme": "Default"
+        }
+    ],
+    "pages": [
+        {
+            "title": "Home",
+            "site": 0,
+            "method": "GET",
+            "path": "/",
+            "handler": "getHome",
+            "template": "index.tmpl"
+        },
+        {
+            "title": "Users",
+            "site": 0,
+            "method": "GET",
+            "path": "/users",
+            "handler": "getUsers",
+            "template": "users/users.tmpl"
+        },
+        {
+            "title": "Settings",
+            "site": 0,
+            "method": "GET",
+            "path": "/settings",
+            "handler": "getSettings",
+            "template": "settings/settings.tmpl"
+        }
+    ],
+    "user": [
+        {
+            "ID": 0,
+            "Username": "Demo",
+            "Email": "demo@gmail.com",
+            "FirstName": "Demo",
+            "LastName": "Demo",
+            "Image": "Default",
+            "Key": "GamerGauntletDemo"
+        }
+    ]
+}
