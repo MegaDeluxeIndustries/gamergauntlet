@@ -1,0 +1,8 @@
+
+//All settings json
+GET http://localhost:8080/settings HTTP/1.1
+content-type: application/json
+
+###
+
+GET http://localhost:8080/users HTTP/1.1
