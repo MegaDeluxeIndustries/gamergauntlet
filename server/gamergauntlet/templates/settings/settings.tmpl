@@ -1,0 +1,16 @@
+{{ define "settings/settings.tmpl" }}
+
+{{ template "globals/header.tmpl" .}}
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <p>Select which settings you would like to view.</p>
+            <button class="btn btn-default" type="submit">Server Settings</button>
+            <button class="btn btn-default" type="submit">App Settings</button>
+        </div>
+     </div>
+  </main>
+
+{{ template "globals/footer.tmpl" .}}
+{{ end }}

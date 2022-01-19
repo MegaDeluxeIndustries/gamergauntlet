@@ -9,7 +9,7 @@ import (
 	"github.com/mitchellh/go-ps"
 )
 
-// Gamer Gaunlet Site information
+// Gamer Gaunlet server
 type site struct {
 	ID    int    `json:"id"`
 	Title string `json:"title"`
@@ -18,7 +18,7 @@ type site struct {
 	Theme string `json:"theme"`
 }
 
-// Gamer Gauntlet server page data
+// Gamer Gauntlet server page
 type page struct {
 	ID       int    `json:"id"`
 	Title    string `json:"title"`
@@ -29,7 +29,23 @@ type page struct {
 	Template string `json:"template"`
 }
 
-//Gamer Gauntlet user data
+// Gamer Gauntlet server link
+type link struct {
+	ID     int
+	Name   string
+	Path   string
+	Active int
+	Order  int
+}
+
+// Gamer Gauntlet Server menu
+type menu struct {
+	ID    int
+	Name  string
+	Links []link
+}
+
+// Gamer Gauntlet user
 type user struct {
 	ID        int    `json:"id"`
 	Username  string `json:"username"`
@@ -40,7 +56,7 @@ type user struct {
 	Key       string `json:"key"`
 }
 
-//Gamer Gauntlet server data
+// Gamer Gauntlet app
 type gamergauntlet struct {
 	ID   int    `json:"id"`
 	IP   string `json:"ip"`
@@ -49,7 +65,7 @@ type gamergauntlet struct {
 	User int    `json:"user"`
 }
 
-// User app profile data
+// Gamer Gauntlet app profile
 type profile struct {
 	ID    int    `json:"id"`
 	Name  string `json:"name"`
@@ -57,14 +73,14 @@ type profile struct {
 	User  int    `json:"user"`
 }
 
-// App profile screen layout data
+//Gamer Gauntlet app screen
 type screen struct {
 	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Profile string `json:"profile"`
 }
 
-// App screen button data
+// Gamer Gauntlet app button
 type button struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
@@ -75,7 +91,7 @@ type button struct {
 	Position int    `json:"position"`
 }
 
-// App screen widget data
+// Gamer Gauntlet app widget
 type widget struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
@@ -86,39 +102,51 @@ type widget struct {
 	Position string `json:"position"`
 }
 
-//Below is Seed data until a database is added
+// TODO Implement r/w Gamer Gaunlet server app settings file.
+// The data below will be generated and modified using the Gamer Gauntlet server user interface, and saved locally as json in text files.
+// When the Gamer Gauntlet app starts, it connects to the server, pulls settings down, and configures the app user interface and functionality.
 
+// Begin Gamer Gauntlet server settings
 // Default site
 var sites = []site{
 	{ID: 0, Title: "Gamer Gauntlet", IP: "127.0.0.1", Port: 8080, Theme: "Default"},
 }
 
 // Default Pages
+// This is where you can add or modify the Gamer Gauntlet server pages
 var pages = []page{
-	{Title: sites[0].Title + " - Home", Site: sites[0].ID, Method: "GET", Path: "/", Handler: "getHome", Template: "index.tmpl"},
-	{Title: sites[0].Title + " - Users", Site: sites[0].ID, Method: "GET", Path: "/users", Handler: "getUsers", Template: "users.tmpl"},
-	{Title: sites[0].Title + " - Settings", Site: sites[0].ID, Method: "GET", Path: "/settings", Handler: "getSettings", Template: "settings.tmpl"},
-}
+	{Title: "Home", Site: sites[0].ID, Method: "GET", Path: "/", Handler: "getHome", Template: "index.tmpl"},
+	{Title: "Users", Site: sites[0].ID, Method: "GET", Path: "/users", Handler: "getUsers", Template: "users/users.tmpl"},
+	{Title: "Settings", Site: sites[0].ID, Method: "GET", Path: "/settings", Handler: "getSettings", Template: "settings/settings.tmpl"},
+} // End Gamer Gauntlet server settings
 
+// Begin Gamer Gauntlet app settings
 // Test users
 var users = []user{
 	{ID: 0, Username: "Demo", Email: "demo@gmail.com", FirstName: "Demo", LastName: "Demo", Image: "Default", Key: "GamerGauntletDemo"},
 }
 
+// Test Gamer Gauntlet
 var gamergauntlets = []gamergauntlet{
 	{ID: 0, IP: "IP", MAC: "MAC", Key: "GamerGauntlet", User: 0},
 }
 
+// Test profiles
+// TODO Move profiles to app setting json file
 var profiles = []profile{
 	{ID: 0, Name: "Streaming", Image: "Default", User: 0},
 	{ID: 1, Name: "Recording", Image: "Default", User: 0},
 }
 
+// Test screens
+// TODO Move screens to app setting json file
 var screens = []screen{
 	{ID: 0, Name: "Primary", Profile: "1"},
 	{ID: 1, Name: "Secondary", Profile: "1"},
 }
 
+//Test buttons
+//TODO Move buttons to app setting json file
 var buttons = []button{
 	{ID: 0, Name: "mic1", Image: "Default", Type: "MuteAudio", Screen: 0, Size: 1, Position: 0},
 	{ID: 1, Name: "1", Image: "Default", Type: "SwitchScene", Screen: 0, Size: 1, Position: 1},
@@ -132,24 +160,26 @@ var buttons = []button{
 	{ID: 9, Name: "", Image: "Default", Type: "Disconnect", Screen: 0, Size: 1, Position: 9},
 }
 
+// Test widgets
+// TODO Move widgets to app setting json file
 var widgets = []widget{
 	{ID: 0, Name: "Twitch", Image: "Default", Type: "Stream"},
 	{ID: 1, Name: "Twitch", Image: "Default", Type: "Stream"},
 	{ID: 2, Name: "Youtube", Image: "Default", Type: "Chat"},
 	{ID: 3, Name: "Youtube", Image: "Default", Type: "Chat"},
-}
+} // End Gamer Gauntlet app settings
 
 func main() {
 
+	log.Printf("Starting Gamer Gauntlet server")
 	manageserver("gg", "start")
-	manageserver("obs", "status")
 
 }
 
-// Manage Gamer Gauntlet Server.
+// Manage Gamer Gauntlet and OBS Server.
 func manageserver(server string, option string) int {
 
-	// Check if Gamer Gauntlet server is running.
+	// Check if Gamer Gauntlet server status
 	if server == "gg" && option == "status" {
 
 		status := getProcess("go.exe")
@@ -160,7 +190,7 @@ func manageserver(server string, option string) int {
 	// Start Gamer Gauntlet server.
 	if server == "gg" && option == "start" {
 
-		status := buildsite()
+		status := startgg()
 
 		return status
 	}
@@ -171,21 +201,26 @@ func manageserver(server string, option string) int {
 
 		return status
 	}
+	if server == "obs" && option == "Start" {
+		status := startobs()
+
+		return status
+	}
 
 	return 0
 }
 
-func buildsite() int {
-
-	getmenu(pages)
+func startgg() int {
 
 	router := gin.Default()
 
 	// Load page templates
 	router.LoadHTMLGlob("templates/**/*.tmpl")
 
+	// Static files location
 	router.Static("/assets", "./assets")
 
+	//Methods. Routes, and Handlers
 	router.GET("/", getHome)
 	router.GET("/users", getUsers)
 	router.GET("/settings", getSettings)
@@ -198,52 +233,74 @@ func buildsite() int {
 	return 1
 }
 
-func getmenu(pages []page) []struct{} {
+//TODO Implement OBS server start
+func startobs() int { return 1 }
 
-	type item struct {
-		ID     int
-		Name   string
-		Path   string
-		Active int
-		Order  int
+func getmenu(pages []page) []menu {
+
+	menulinks := make([]menu, 1)
+
+	menulinks[0].ID = 0
+	menulinks[0].Name = "Main Menu"
+	menulinks[0].Links = make([]link, len(pages))
+
+	for id, page := range pages {
+		menulinks[0].Links[id].ID = page.ID
+		menulinks[0].Links[id].Name = page.Title
+		menulinks[0].Links[id].Path = page.Path
+		menulinks[0].Links[id].Active = 1
+		menulinks[0].Links[id].Order = 1
 	}
-	var items []struct{}
 
-	for _, page := range pages {
-		id := 0
-		items[id] = []item{{ID: id, Name: page.Title}}
-		id++
-	}
-
-	return items
+	return menulinks
 
 }
 
 func getHome(c *gin.Context) {
 
-	c.HTML(http.StatusOK, pages[0].Template, gin.H{
+	//Build menu from pages
+	var menu []menu = getmenu(pages)
 
+	c.HTML(http.StatusOK, pages[0].Template, gin.H{
 		"title": pages[0].Title,
+		"menu":  menu[0].Links,
 	})
 
 }
 
 func getUsers(c *gin.Context) {
 
+	var menu []menu = getmenu(pages)
+
 	c.HTML(http.StatusOK, pages[1].Template, gin.H{
 		"title": pages[1].Title,
+		"menu":  menu[0].Links,
 	})
 
 }
 
 // getSettings
 func getSettings(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, users)
-	c.IndentedJSON(http.StatusOK, gamergauntlets)
-	c.IndentedJSON(http.StatusOK, profiles)
-	c.IndentedJSON(http.StatusOK, screens)
-	c.IndentedJSON(http.StatusOK, buttons)
-	c.IndentedJSON(http.StatusOK, widgets)
+
+	if c.ContentType() == "application/json" {
+
+		c.IndentedJSON(http.StatusOK, users)
+		c.IndentedJSON(http.StatusOK, gamergauntlets)
+		c.IndentedJSON(http.StatusOK, profiles)
+		c.IndentedJSON(http.StatusOK, screens)
+		c.IndentedJSON(http.StatusOK, buttons)
+		c.IndentedJSON(http.StatusOK, widgets)
+
+		return
+	}
+
+	var menu []menu = getmenu(pages)
+
+	c.HTML(http.StatusOK, pages[2].Template, gin.H{
+		"title": pages[2].Title,
+		"menu":  menu[0].Links,
+	})
+
 }
 
 // postSettings

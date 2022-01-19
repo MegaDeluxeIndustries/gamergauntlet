@@ -10,11 +10,9 @@
     <nav class="navbar navbar-default">
         <div class="container">
           <div class="navbar-header">
-                {{range .Items}}<a class="navbar-brand" href="">{{ . }}</a>{{else}}<div><strong>Data Missing</strong></div>{{end}}
+                {{range .menu}}<a class="navbar-brand" href="{{.Path}}">{{.Name}}</a>{{else}}<div><strong>Data Missing</strong></div>{{end}}
           </div>
         </div>
       </nav>
-	<a href="/">Home</a>
-	<a href="/users/">User</a>
 </header>
 {{ end }}
