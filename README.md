@@ -1,5 +1,5 @@
-The GamerGauntet is a wrist mounted StreamDeck+.
-The hardware and software will be released under GPL v3. (Designs will be available on Thingiverse.com) Software is a fork of [StreamDeck](github.com/ecrax/StreamDeck). I will be adding a web-based configuration. The server will also monitor OBS and the python script. The Android app will be modified to use the API. It will allow one to execute macros or scripts (e.g. powershell, python) on the host PC(s). Multiple simultaneous computer control. The app will be updated with a customizable grid widget system. A welcome screen to walk new users through setup. A customizable home screen will be added for flair andb Button images will be customizable. 
+The GamerGauntet is a wrist mounted StreamDeck+ released under GPL v3.
+The Software is a fork of [StreamDeck](github.com/ecrax/StreamDeck).
 
 ## Features
 - Muting audio
@@ -15,11 +15,12 @@ The hardware and software will be released under GPL v3. (Designs will be availa
 - Configuration Preview
 
 ## Widgets
+- Buttons
 - OBS Integration
 - Video feed (todo)
 - Chat integration (todo)
 - Multiple screens (todo)
-- Widget grid layout (todo)
+- grid layout (todo)
 - Configuration (todo)
 
 - Supported platforms
