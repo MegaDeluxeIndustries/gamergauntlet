@@ -18,18 +18,34 @@
             "template": "index.tmpl"
         },
         {
+            "title": "Configure Gauntlet",
+            "site": 0,
+            "method": "GET",
+            "path": "/server",
+            "handler": "getSettings",
+            "template": "settings/settings.tmpl"
+        },
+        {
+            "title": "Configure Server",
+            "site": 0,
+            "method": "GET",
+            "path": "/server",
+            "handler": "getSettings",
+            "template": "settings/settings.tmpl"
+        },
+        {
             "title": "Users",
             "site": 0,
             "method": "GET",
-            "path": "/users",
+            "path": "/user",
             "handler": "getUsers",
             "template": "users/users.tmpl"
         },
         {
-            "title": "Settings",
+            "title": "Widgets",
             "site": 0,
             "method": "GET",
-            "path": "/settings",
+            "path": "/server",
             "handler": "getSettings",
             "template": "settings/settings.tmpl"
         }

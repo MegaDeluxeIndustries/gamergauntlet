@@ -170,7 +170,7 @@ func manageserver(server string, option string) int {
 
 func startgg() int {
 
-	loadSettings()
+	loadJson()
 	getMenu(serversettings.Pages)
 
 	router := gin.Default()
@@ -183,10 +183,10 @@ func startgg() int {
 
 	//Methods, Routes, and Handlers
 	router.GET("/", getHome)
-	router.GET("/users", getUsers)
-	router.GET("/settings", getSettings)
-	router.GET("/settings/:id", getSettingID)
-	router.POST("/settings", postSettings)
+	router.GET("/user", getUsers)
+	router.GET("/server", getServer)
+	router.GET("/server/:id", getServerID)
+	router.POST("/server", postServer)
 
 	router.Run()
 
@@ -196,7 +196,7 @@ func startgg() int {
 //TODO Implement OBS server start
 func startobs() int { return 1 }
 
-func loadSettings() {
+func loadJson() {
 
 	// Open jsonFile
 	serverJson, err := os.Open("server.json")
@@ -267,8 +267,8 @@ func getUsers(c *gin.Context) {
 
 }
 
-// getSettings
-func getSettings(c *gin.Context) {
+// getServer
+func getServer(c *gin.Context) {
 
 	if c.ContentType() == "application/json" {
 
@@ -289,7 +289,7 @@ func getSettings(c *gin.Context) {
 }
 
 // postSettings
-func postSettings(c *gin.Context) {
+func postServer(c *gin.Context) {
 	var newButton button
 
 	if err := c.BindJSON(&newButton); err != nil {
@@ -302,7 +302,7 @@ func postSettings(c *gin.Context) {
 }
 
 // getSettingID
-func getSettingID(c *gin.Context) {
+func getServerID(c *gin.Context) {
 	id := c.Param("id")
 
 	for _, a := range appsettings.Buttons {
